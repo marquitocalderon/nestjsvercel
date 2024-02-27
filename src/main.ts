@@ -11,7 +11,6 @@ async function bootstrap() {
     .setTitle('Backend Generator')
     .setDescription('Documentation API Test')
     .setVersion('1.0')
-    .setBasePath('api/v1')
     .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'JWT' })
     .build();
 
