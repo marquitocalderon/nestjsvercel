@@ -5,7 +5,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { PermisoPara } from './decorators/roles.decorator';
 import { RolesGuard } from './guards/roles.guard';
 import { Role } from './enums/role.enum';
-import { ApiExcludeEndpoint } from '@nestjs/swagger';
+import { ApiExcludeEndpoint, ApiQuery } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -29,7 +29,7 @@ export class AuthController {
 
     @Get('profile')
     @PermisoPara(Role.ADMIN)
-    @ApiExcludeEndpoint()
+    @ApiQuery({ name: 'param1', description: 'Description of param1', required: true })
     @UseGuards(AuthGuard, RolesGuard)
     profile(){
         return "HOLA USUARIO"
