@@ -18,9 +18,5 @@
             "DELETE"
         ]
       }
-    ],
-    "rewrites": [
-      { "source": "/docs/(.*)", "destination": "/public/docs/$1" },
-      { "source": "/(.*)", "destination": "/src/main.ts" }
     ]
   }
