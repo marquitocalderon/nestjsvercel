@@ -5,7 +5,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { PermisoPara } from './decorators/roles.decorator';
 import { RolesGuard } from './guards/roles.guard';
 import { Role } from './enums/role.enum';
-import { ApiBody, ApiExcludeEndpoint, ApiQuery } from '@nestjs/swagger';
+import { ApiBody, ApiExcludeEndpoint } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
