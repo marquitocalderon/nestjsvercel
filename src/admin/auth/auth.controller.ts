@@ -28,6 +28,7 @@ export class AuthController {
     
 
     @Get('profile')
+    @ApiExcludeEndpoint()
     @PermisoPara(Role.ADMIN)
     @ApiBody({ type: LoginDto})
     @UseGuards(AuthGuard, RolesGuard)

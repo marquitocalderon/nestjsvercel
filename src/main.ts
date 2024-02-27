@@ -10,14 +10,13 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Backend Generator')
     .setDescription('Documentation API Test')
-    .setVersion('3.0')
-    .addBearerAuth()
+    .setVersion('1.0')
+    .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'JWT' })
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document, {
     customSiteTitle: 'Backend Generator',
-    customfavIcon: 'https://avatars.githubusercontent.com/u/6936373?s=200&v=4',
     customJs: [
       'https://cdn.jsdelivr.net/npm/swagger-ui-dist@4.6.2/swagger-ui-bundle.js',
       'https://cdn.jsdelivr.net/npm/swagger-ui-dist@4.6.2/swagger-ui-standalone-preset.js',
