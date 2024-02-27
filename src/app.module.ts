@@ -7,11 +7,15 @@ import { CloudinaryModule } from "./admin/cloudinary/cloudinary.module";
 import { AuthModule } from "./admin/auth/auth.module";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-
-
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'swagger-static'),
+      serveRoot: process.env.NODE_ENV === 'development' ? '/' : '/swagger',
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
