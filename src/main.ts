@@ -1,3 +1,4 @@
+// main.ts
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
@@ -6,7 +7,16 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // swagger setup
+  // Configuración de Swagger con URLs actualizadas
+  const swaggerOptions = {
+    customSiteTitle: 'Backend Generator',
+    customJs: [
+      '/docs/swagger-ui-bundle.js',
+      '/docs/swagger-ui-standalone-preset.js',
+    ],
+    customCssUrl: ['/docs/swagger-ui.css'],
+  };
+
   const config = new DocumentBuilder()
     .setTitle('Backend Generator')
     .setDescription('Documentation API Test')
@@ -15,20 +25,12 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document, {
-    customSiteTitle: 'Backend Generator',
-    customJs: [
-      'https://cdn.jsdelivr.net/npm/swagger-ui-dist@4.6.2/swagger-ui-bundle.js',
-      'https://cdn.jsdelivr.net/npm/swagger-ui-dist@4.6.2/swagger-ui-standalone-preset.js',
-    ],
-    customCssUrl: [
-      'https://cdn.jsdelivr.net/npm/swagger-ui-dist@4.6.2/swagger-ui.css',
-    ],
-  });
-  
+  SwaggerModule.setup('docs', app, document, swaggerOptions);
 
-
+  // Configuración de CORS
   app.enableCors();
+
+  // Configuración de validación global
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -37,8 +39,7 @@ async function bootstrap() {
     })
   );
 
+  // Escuchar en el puerto 4000
   await app.listen(4000);
-
 }
 bootstrap();
-
