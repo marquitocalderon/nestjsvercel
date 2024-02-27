@@ -10,7 +10,17 @@ async function bootstrap() {
     .setTitle('DOCUMENTACION')
     .setDescription('API Documentation SOLICITUDES')
     .setVersion('1.0')
-    .addBearerAuth()
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'APIKey',
+        name: 'APIKey',
+        description: 'Enter API Key',
+        in: 'header',
+      },
+      'APIKey-auth', 
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
