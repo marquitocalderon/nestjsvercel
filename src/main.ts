@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { SwaggerUIBundle } from 'swagger-ui-dist';  // Importa Swagger UI
+import { SwaggerUIBundle, SwaggerUIStandalonePreset } from 'swagger-ui-dist';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,9 +18,9 @@ async function bootstrap() {
 
   SwaggerModule.setup('docs', app, document, {
     swaggerOptions: {
-      // Aquí puedes configurar opciones de Swagger UI si es necesario
-      // En este caso, especificamos el bundle de Swagger UI que importamos
-      swaggerUI: SwaggerUIBundle,
+      // Utiliza los presets de SwaggerUIBundle
+      presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+      // Otras opciones si es necesario
     },
   });
 
