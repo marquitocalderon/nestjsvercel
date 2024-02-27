@@ -11,7 +11,7 @@ async function bootstrap() {
     .setTitle('Backend Generator')
     .setDescription('Documentation API Test')
     .setVersion('3.0')
-    .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'JWT' })
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
