@@ -19,15 +19,14 @@ async function bootstrap() {
     customSiteTitle: 'Backend Generator',
     customfavIcon: 'https://avatars.githubusercontent.com/u/6936373?s=200&v=4',
     customJs: [
-      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.0.0/swagger-ui-bundle.min.js',
-      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.0.0/swagger-ui-standalone-preset.min.js',
+      'https://cdn.jsdelivr.net/npm/swagger-ui-dist@4.6.2/swagger-ui-bundle.js',
+      'https://cdn.jsdelivr.net/npm/swagger-ui-dist@4.6.2/swagger-ui-standalone-preset.js',
     ],
     customCssUrl: [
-      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.0.0/swagger-ui.min.css',
-      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.0.0/swagger-ui-standalone-preset.min.css',
-      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.0.0/swagger-ui.css',
-    ],    
+      'https://cdn.jsdelivr.net/npm/swagger-ui-dist@4.6.2/swagger-ui.css',
+    ],
   });
+  
 
 
   app.enableCors();
