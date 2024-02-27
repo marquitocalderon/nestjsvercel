@@ -29,6 +29,7 @@ export class AuthController {
 
     @Get('profile')
     @PermisoPara(Role.ADMIN)
+    @ApiExcludeEndpoint()
     @UseGuards(AuthGuard, RolesGuard)
     profile(){
         return "HOLA USUARIO"
