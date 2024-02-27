@@ -3,6 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PerfilesModule } from './admin/perfiles/perfiles.module';
+
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -26,7 +28,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
           }
           : null,
     },
-  }),],
+  }),
+  PerfilesModule],
   controllers: [AppController],
   providers: [AppService],
 })
