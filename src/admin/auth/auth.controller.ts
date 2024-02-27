@@ -19,7 +19,6 @@ export class AuthController {
     }
 
     @UseGuards(AuthGuard, RolesGuard)
-    @ApiExcludeEndpoint()
     @Post('refresh')
     refreshToken(@Body() datosFronted: RefreshTokenDTO) {
         return this.authService.generarToken_Con_REFRESH_TOKEN(datosFronted)
