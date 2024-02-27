@@ -7,15 +7,17 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Configuración de Swagger con URLs actualizadas
-  const swaggerOptions = {
-    customSiteTitle: 'Backend Generator',
-    customJs: [
-      '/docs/swagger-ui-bundle.js',
-      '/docs/swagger-ui-standalone-preset.js',
-    ],
-    customCssUrl: ['/docs/swagger-ui.css'],
-  };
+  // // Configuración de Swagger con URLs actualizadas
+  // const swaggerOptions = {
+  //   customSiteTitle: 'Backend Generator',
+  //   customJs: [
+  //     '/',
+  //     'https://cdn.jsdelivr.net/npm/swagger-ui-dist@4.7.1/swagger-ui-standalone-preset.js',
+  //   ],
+  //   customCssUrl: [
+  //     'https://cdn.jsdelivr.net/npm/swagger-ui-dist@4.7.1/swagger-ui.css',
+  //   ],
+  // };
 
   const config = new DocumentBuilder()
     .setTitle('Backend Generator')
@@ -25,7 +27,7 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document, swaggerOptions);
+  SwaggerModule.setup('docs', app, document);
 
   // Configuración de CORS
   app.enableCors();
