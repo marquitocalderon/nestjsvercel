@@ -1,4 +1,3 @@
-// main.ts
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
@@ -7,18 +6,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Configuración de Swagger con URLs actualizadas
-  const swaggerOptions = {
-    customSiteTitle: 'Backend Generator',
-    customJs: [
-      'https://cdn.jsdelivr.net/npm/swagger-ui-dist@4.7.1/swagger-ui-bundle.js',
-      'https://cdn.jsdelivr.net/npm/swagger-ui-dist@4.7.1/swagger-ui-standalone-preset.js',
-    ],
-    customCssUrl: [
-      'https://cdn.jsdelivr.net/npm/swagger-ui-dist@4.7.1/swagger-ui.css',
-    ],
-  };
-
+  // swagger setup
   const config = new DocumentBuilder()
     .setTitle('Backend Generator')
     .setDescription('Documentation API Test')
@@ -27,12 +15,22 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document, swaggerOptions);
+  SwaggerModule.setup('docs', app, document, {
+    customSiteTitle: 'Backend Generator',
+    customfavIcon: 'https://avatars.githubusercontent.com/u/6936373?s=200&v=4',
+    customJs: [
+      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.min.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.min.js',
+    ],
+    customCssUrl: [
+      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css',
+      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.min.css',
+      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.css',
+    ],
+  });
 
-  // Configuración de CORS
+
   app.enableCors();
-
-  // Configuración de validación global
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -41,7 +39,8 @@ async function bootstrap() {
     })
   );
 
-  // Escuchar en el puerto 4000
   await app.listen(4000);
+
 }
 bootstrap();
+
