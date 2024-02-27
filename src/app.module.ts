@@ -5,6 +5,8 @@ import { PerfilesModule } from "./admin/perfiles/perfiles.module";
 import { UsuariosModule } from "./admin/usuarios/usuarios.module";
 import { CloudinaryModule } from "./admin/cloudinary/cloudinary.module";
 import { AuthModule } from "./admin/auth/auth.module";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
 
 
 
@@ -37,7 +39,7 @@ import { AuthModule } from "./admin/auth/auth.module";
     CloudinaryModule,
     AuthModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule { }
