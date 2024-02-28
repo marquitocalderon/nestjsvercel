@@ -30,8 +30,6 @@ export class UsuariosController {
     }
 
     @Post()
-    @ApiExcludeEndpoint()
-    @PermisoPara(Role.ADMIN)
     @UseInterceptors(FileInterceptor('imagen'))
     postUsuarios(@UploadedFile() imagen: Express.Multer.File, @Body() datosDelFormulario: CrearUsuarioDto,) {
         // Verificar si el mimetype es de una imagen
