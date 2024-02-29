@@ -19,7 +19,6 @@ export class AuthController {
     }
 
     @Post('loginclientes')
-    @ApiExcludeEndpoint()
     loginCliente(@Body() datosFronted: LoginDto) {
         return this.authService.loginClientes(datosFronted)
     }
