@@ -9,6 +9,7 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { ClientesModule } from './clients/clientes/clientes.module';
 import { CategoriasModule } from './admin/categorias/categorias.module';
+import { MarcasModule } from './admin/marcas/marcas.module';
 
 
 
@@ -42,6 +43,7 @@ import { CategoriasModule } from './admin/categorias/categorias.module';
     AuthModule,
     ClientesModule,
     CategoriasModule,
+    MarcasModule,
   ],
   controllers: [AppController],
   providers: [AppService],
