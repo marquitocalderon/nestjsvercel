@@ -70,7 +70,7 @@ export class UsuariosService {
     });
 
     if (!perfilEncontrado) {
-      return new HttpException('Perfil no encontrado ', HttpStatus.NOT_FOUND);
+      throw new HttpException('Perfil no encontrado ', HttpStatus.NOT_FOUND);
     }
 
     const usuarioEncontrado = await this.usuarioRepository.findOneBy({
@@ -78,7 +78,7 @@ export class UsuariosService {
     });
 
     if (usuarioEncontrado) {
-      return new HttpException('Usuario ya existe en la base de datos', HttpStatus.CONFLICT);
+      throw new HttpException('Usuario ya existe en la base de datos', HttpStatus.CONFLICT);
     }
 
     let imagenUrl: string | null = null;  // Inicializa imagenUrl como null
@@ -110,7 +110,7 @@ export class UsuariosService {
     });
 
     if (!perfilEncontrado) {
-      return new HttpException('Perfil no encontrado ', HttpStatus.NOT_FOUND);
+      throw new HttpException('Perfil no encontrado ', HttpStatus.NOT_FOUND);
     }
 
 
@@ -119,7 +119,7 @@ export class UsuariosService {
     });
 
     if (!usuarioExistente) {
-      return new HttpException('Usuario no existe', HttpStatus.NOT_FOUND);
+      throw new HttpException('Usuario no existe', HttpStatus.NOT_FOUND);
     }
 
     const usuarioEncontrado = await this.usuarioRepository.findOneBy({
@@ -128,7 +128,7 @@ export class UsuariosService {
 
     // Verifica si el usuario con el nuevo nombre ya existe, excluyendo al usuario actual
     if (usuarioEncontrado && usuarioEncontrado.id_usuario !== id_usuario) {
-      return new HttpException('Usuario ya existe en la base de datos', HttpStatus.CONFLICT);
+      throw new HttpException('Usuario ya existe en la base de datos', HttpStatus.CONFLICT);
     }
 
     // Verifica si el nombre de usuario se ha cambiado antes de comparar con otros usuarios
@@ -138,7 +138,7 @@ export class UsuariosService {
       });
 
       if (usuarioConMismoNombre) {
-        return new HttpException('Usuario con el mismo nombre ya existe', HttpStatus.CONFLICT);
+        throw new HttpException('Usuario con el mismo nombre ya existe', HttpStatus.CONFLICT);
       }
     }
 
@@ -153,7 +153,7 @@ export class UsuariosService {
       const cloudinaryResponse = await this.cloudinaryService.uploadFile(imagen);
 
       if (!cloudinaryResponse) {
-        return new HttpException('Error uploading image to Cloudinary', HttpStatus.INTERNAL_SERVER_ERROR);
+        throw new HttpException('Error uploading image to Cloudinary', HttpStatus.INTERNAL_SERVER_ERROR);
       }
 
       imagenUrl = cloudinaryResponse.secure_url;

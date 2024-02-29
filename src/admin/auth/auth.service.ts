@@ -4,6 +4,7 @@ import { LoginDto, RefreshTokenDTO } from './dto/login.dto';
 import * as bcryptjs from 'bcryptjs'
 import { JwtService, TokenExpiredError } from '@nestjs/jwt';
 import { UsuariosService } from '../usuarios/usuarios.service';
+import { ClientesService } from 'src/clients/clientes/clientes.service';
 
 
 // PARA USUAR JWT TOKEN SE INSTALA ESTO
@@ -14,6 +15,7 @@ export class AuthService {
 
     constructor(
         private readonly usuarioService: UsuariosService,
+        private readonly clienteService : ClientesService,
         private readonly jwtService: JwtService
     ) { }
 
@@ -31,6 +33,38 @@ export class AuthService {
         }
     
         const payload = { sub: usuario.id_usuario, username: usuario.usuario, role: usuario.perfiles.nombre_perfil };
+    
+        const accessToken = await this.jwtService.signAsync(payload, {
+            secret: process.env.ACCESS_TOKEN,
+            expiresIn: 60 * 60,
+        });
+    
+        const refreshToken = await this.jwtService.signAsync(payload, {
+            secret: process.env.REFRESH_TOKEN,
+            expiresIn: 60 * 60 * 24 * 7,
+        });
+    
+        return {
+            token: accessToken,
+            refreshToken: refreshToken,
+        };
+    }
+
+    async loginClientes(datosFronted: LoginDto) {
+        const usuario = await this.clienteService.buscarParaLoginCLiente(datosFronted.usuario);
+
+    
+        if (!usuario) {
+            throw new UnauthorizedException('Usuario Incorrecto');
+        }
+    
+        const passwordValidar = await bcryptjs.compare(datosFronted.password, usuario.password);
+    
+        if (!passwordValidar) {
+            throw new UnauthorizedException('Password Incorrecto');
+        }
+    
+        const payload = { sub: usuario.id_cliente, username: usuario.usuario, role: "CLIENTE", email: usuario.email, departamento: usuario.departamento, provincia: usuario.provincia, distrio:usuario.distrito };
     
         const accessToken = await this.jwtService.signAsync(payload, {
             secret: process.env.ACCESS_TOKEN,

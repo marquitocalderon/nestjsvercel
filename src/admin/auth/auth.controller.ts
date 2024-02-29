@@ -18,6 +18,12 @@ export class AuthController {
         return this.authService.login(datosFronted)
     }
 
+    @Post('loginclientes')
+    @ApiExcludeEndpoint()
+    loginCliente(@Body() datosFronted: LoginDto) {
+        return this.authService.loginClientes(datosFronted)
+    }
+
     @UseGuards(AuthGuard, RolesGuard)
     @ApiExcludeEndpoint()
     @Post('refresh')

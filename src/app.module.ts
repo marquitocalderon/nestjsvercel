@@ -7,6 +7,7 @@ import { CloudinaryModule } from "./admin/cloudinary/cloudinary.module";
 import { AuthModule } from "./admin/auth/auth.module";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
+import { ClientesModule } from './clients/clientes/clientes.module';
 
 
 
@@ -38,6 +39,7 @@ import { AppService } from "./app.service";
     UsuariosModule,
     CloudinaryModule,
     AuthModule,
+    ClientesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -27,11 +27,11 @@ export class PerfilesService {
     });
 
     if (!perfilEncontrado) {
-      return new HttpException('Perfil no encontrado', HttpStatus.NOT_FOUND);
+      throw new HttpException('Perfil no encontrado', HttpStatus.NOT_FOUND);
     }
 
     if (!perfilEncontrado.estado_perfil) {
-      return new HttpException('Perfil Eliminado', HttpStatus.NOT_FOUND);
+      throw new HttpException('Perfil Eliminado', HttpStatus.NOT_FOUND);
     }
 
     return perfilEncontrado;
@@ -44,7 +44,7 @@ export class PerfilesService {
      })
 
      if (PerfilEncontrado){
-      return new HttpException('perfil ya existe en la base de datos', HttpStatus.CONFLICT)
+      throw new HttpException('perfil ya existe en la base de datos', HttpStatus.CONFLICT)
      }
 
      const nuevoPerfil = this.perfilRepository.create(perfil)
@@ -58,7 +58,7 @@ export class PerfilesService {
       });
   
       if (!perfilExistente) {
-        return new HttpException('Perfil no existe', HttpStatus.NOT_FOUND);
+        throw new HttpException('Perfil no existe', HttpStatus.NOT_FOUND);
       }
   
       // Comprobar la existencia del perfil con el mismo nombre solo si el nombre es diferente
@@ -68,7 +68,7 @@ export class PerfilesService {
         });
   
         if (perfilConMismoNombre) {
-          return new HttpException('Perfil con el mismo nombre ya existe', HttpStatus.CONFLICT);
+          throw new HttpException('Perfil con el mismo nombre ya existe', HttpStatus.CONFLICT);
         }
       }
   
@@ -85,11 +85,11 @@ export class PerfilesService {
       });
   
       if (!perfilExistente) {
-        return new HttpException('Perfil no encontrado', HttpStatus.NOT_FOUND);
+        throw new HttpException('Perfil no encontrado', HttpStatus.NOT_FOUND);
       }
 
      if (!perfilExistente.estado_perfil) {
-      return new HttpException('Perfil Eliminado', HttpStatus.NOT_FOUND);
+      throw new HttpException('Perfil Eliminado', HttpStatus.NOT_FOUND);
     }
   
       // Actualizar el estado del perfil a false
