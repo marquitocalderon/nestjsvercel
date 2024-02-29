@@ -20,7 +20,7 @@ export class ClientesService {
       where: {
         usuario: usuario,
       },
-      select:["id_cliente","usuario","password","email","departamento", "provincia","distrito","nombre_completo"]
+      select:["id_cliente","usuario","password","email","departamento", "provincia","distrito","nombre_completo", "dni"]
     });
   }
 
@@ -44,9 +44,18 @@ export class ClientesService {
             throw new ConflictException("Este email ya existe, Elija otro")
         }
 
+        const dniEncontrado = await this.clientesRepository.findOneBy({
+          email: datosDelFrontendCliente.dni,
+      });
+
+      if (dniEncontrado) {
+          throw new ConflictException("Este dni ya existe, Elija otro")
+      }
+
         const nuevoCliente = this.clientesRepository.create({
             nombre_completo: datosDelFrontendCliente.nombre_completo,
             email: datosDelFrontendCliente.email,
+            dni: datosDelFrontendCliente.dni,
             usuario: datosDelFrontendCliente.usuario,
             password: await bcryptjs.hash(datosDelFrontendCliente.password, 10),
             departamento: datosDelFrontendCliente.departamento,

@@ -10,6 +10,8 @@ export class ClientesEntity {
     @Column({ length: 50 })
     nombre_completo: string;
 
+    @Column({ length: 8 , unique: true}) // Especifica la longitud máxima de la columna usuario
+    dni: string;
 
     @Column({ length: 50 , unique: true}) 
     email: string;
