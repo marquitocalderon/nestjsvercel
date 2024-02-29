@@ -10,6 +10,7 @@ import { AppService } from "./app.service";
 import { ClientesModule } from './clients/clientes/clientes.module';
 import { CategoriasModule } from './admin/categorias/categorias.module';
 import { MarcasModule } from './admin/marcas/marcas.module';
+import { TallasModule } from './admin/tallas/tallas.module';
 
 
 
@@ -44,6 +45,7 @@ import { MarcasModule } from './admin/marcas/marcas.module';
     ClientesModule,
     CategoriasModule,
     MarcasModule,
+    TallasModule,
   ],
   controllers: [AppController],
   providers: [AppService],
