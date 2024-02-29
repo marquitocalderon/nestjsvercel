@@ -6,8 +6,8 @@ export class CrearClienteDto {
     @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value)) // Trim whitespaces at the beginning and end
     @IsNotEmpty({ message: 'El campo nombre_completo no debe estar vacío' })
     @IsString({ message: 'El campo nombre_completo tiene que ser una cadena de caracteres' })
-    @MinLength(4, { message: 'El campo nombre_completo debe 4 caracteres como minimo' })
     @MaxLength(50, { message: 'El campo nombre_completo debe 50 caracteres como maximo' })
+    @MinLength(4, { message: 'El campo nombre_completo debe 4 caracteres como minimo' })
     nombre_completo: string;
 
     @IsNumberString()
@@ -15,24 +15,24 @@ export class CrearClienteDto {
     dni: string;
 
     @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value)) // Trim whitespaces at the beginning and end
-    @IsNotEmpty({ message: 'El campo usuario no debe estar vacío' })
+    @IsNotEmpty({ message: 'El campo email no debe estar vacío' })
     @IsEmail()
-    @MinLength(4, { message: 'El campo usuario debe email caracteres como minimo' })
-    @MaxLength(50, { message: 'El campo usuario debe 50 caracteres como maximo' })
+    @MaxLength(50, { message: 'El campo email debe 50 caracteres como maximo' })
+    @MinLength(4, { message: 'El campo email debe 4 caracteres como minimo' })
     email: string;
 
     @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value)) // Trim whitespaces at the beginning and end
     @IsNotEmpty({ message: 'El campo usuario no debe estar vacío' })
     @IsString({ message: 'El campo usuario tiene que ser una cadena de caracteres' })
-    @MinLength(4, { message: 'El campo usuario debe 4 caracteres como minimo' })
     @MaxLength(16, { message: 'El campo usuario debe 16 caracteres como maximo' })
+    @MinLength(4, { message: 'El campo usuario debe 4 caracteres como minimo' })
     usuario: string;
 
     @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value)) // Trim whitespaces at the beginning and end
     @IsNotEmpty({ message: 'El campo password no debe estar vacío' })
     @IsString({ message: 'El campo password tiene que ser una cadena de caracteres' })
-    @MinLength(4, { message: 'El campo password debe 4 caracteres como minimo' })
     @MaxLength(16, { message: 'El campo password debe 16 caracteres como maximo' })
+    @MinLength(4, { message: 'El campo password debe 4 caracteres como minimo' })
     password: string;
 
     @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value)) // Trim whitespaces at the beginning and end

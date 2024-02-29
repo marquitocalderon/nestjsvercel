@@ -8,6 +8,7 @@ import { AuthModule } from "./admin/auth/auth.module";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { ClientesModule } from './clients/clientes/clientes.module';
+import { CategoriasModule } from './admin/categorias/categorias.module';
 
 
 
@@ -40,6 +41,7 @@ import { ClientesModule } from './clients/clientes/clientes.module';
     CloudinaryModule,
     AuthModule,
     ClientesModule,
+    CategoriasModule,
   ],
   controllers: [AppController],
   providers: [AppService],
