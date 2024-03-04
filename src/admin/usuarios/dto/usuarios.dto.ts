@@ -42,8 +42,8 @@ export class UpdateUsuarioDto {
 
     @IsNotEmpty({ message: 'El idperfil no debe estar vacío' })
     @IsString({message: "el campo idperfil DEBE MANDARSE EN STRING"})
-    @MaxLength(100 , {message: 'El campo password debe 100 caracteres como maximo'})
-    @MinLength(1 , {message: 'El campo password debe 1 caracteres como minimo'})
+    @MaxLength(100 , {message: 'El campo idperfil debe 100 caracteres como maximo'})
+    @MinLength(1 , {message: 'El campo idperfil debe 1 caracteres como minimo'})
     idperfil:string
 }
 

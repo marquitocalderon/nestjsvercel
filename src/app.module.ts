@@ -11,6 +11,8 @@ import { ClientesModule } from './clients/clientes/clientes.module';
 import { CategoriasModule } from './admin/categorias/categorias.module';
 import { MarcasModule } from './admin/marcas/marcas.module';
 import { TallasModule } from './admin/tallas/tallas.module';
+import { GenerosModule } from './admin/generos/generos.module';
+import { ProductosModule } from './admin/productos/productos.module';
 
 
 
@@ -46,6 +48,8 @@ import { TallasModule } from './admin/tallas/tallas.module';
     CategoriasModule,
     MarcasModule,
     TallasModule,
+    GenerosModule,
+    ProductosModule,
   ],
   controllers: [AppController],
   providers: [AppService],
