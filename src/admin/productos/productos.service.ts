@@ -118,5 +118,36 @@ export class ProductosService {
 
 
 
+    obtenertodolosdatos() {
+        return this.productoRepository.find({
+          order: {
+            id_producto: 'DESC',
+          },
+          where: {
+            estado_producto: true
+          },
+        });
+      }
+
+      async obtenerPorID(id: number) {
+        const datoEncontrado = await this.productoRepository.findOneBy({
+          id_producto: id,
+          estado_producto: true
+        });
+    
+        if (!datoEncontrado) {
+          throw new HttpException('Producto no encontrado', HttpStatus.NOT_FOUND);
+        }
+    
+        if (!datoEncontrado.estado_producto) {
+          throw new HttpException('Producto Eliminado', HttpStatus.NOT_FOUND);
+        }
+    
+        return datoEncontrado;
+     } 
+
+
+
+
 
 }

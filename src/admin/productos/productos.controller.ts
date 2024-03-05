@@ -1,8 +1,11 @@
 import {
     Body,
     Controller,
+    Get,
     HttpException,
     HttpStatus,
+    Param,
+    ParseIntPipe,
     Post,
     UploadedFile,
     UseInterceptors,
@@ -10,10 +13,14 @@ import {
 import { ProductosService } from './productos.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CrearProductoDto } from './dto/productos.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AUTENTICACION_PARA_EL } from '../auth/decorators/auth.decorator';
+import { Role } from '../auth/enums/role.enum';
 
-@ApiTags('PRODUCTOS')
+@ApiBearerAuth()
+@ApiTags("PRODUCTOS")
 @Controller('productos')
+@AUTENTICACION_PARA_EL(Role.ADMIN)
 export class ProductosController {
     constructor(private productoService: ProductosService) { }
 
@@ -52,5 +59,16 @@ export class ProductosController {
                 HttpStatus.BAD_REQUEST,
             );
         }
+    }
+
+
+    @Get()
+    getProductos(){
+        return this.productoService.obtenertodolosdatos()
+    }
+
+    @Get(':id')
+    getPerfilById(@Param('id', ParseIntPipe) id:number){
+        return this.productoService.obtenerPorID(id)
     }
 }
