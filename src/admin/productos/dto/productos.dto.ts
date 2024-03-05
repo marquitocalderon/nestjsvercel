@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsInt, IsNotEmpty, IsNumber, IsNumberString, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class CrearProductoDto {
 
@@ -18,16 +18,16 @@ export class CrearProductoDto {
     descripcion: string;
 
     @IsNotEmpty({ message: 'El precio no debe estar vacío' })
-    @IsNumber({}, { message: 'El campo precio debe ser un número' })
-    @MaxLength(100 , {message: 'El campo precio debe 100 caracteres como maximo'})
-    @MinLength(1 , {message: 'El campo precio debe 1 caracteres como minimo'})
-    precio:number
+    @MaxLength(100, { message: 'El campo precio debe tener como máximo 100 caracteres' })
+    @MinLength(1, { message: 'El campo precio debe tener como mínimo 1 caracter' })
+    @IsNumberString({},{ message: 'El campo precio debe ser un número o una cadena numérica' })
+    precio: string;
 
     @IsNotEmpty({ message: 'El stock no debe estar vacío' })
-    @IsInt({ message: 'El campo stock debe ser un número entero' })
-    @MaxLength(100 , {message: 'El campo stock debe 100 caracteres como maximo'})
-    @MinLength(1 , {message: 'El campo stock debe 1 caracteres como minimo'})
-    stock:number
+    @MaxLength(100, { message: 'El campo stock debe tener como máximo 100 caracteres' })
+    @MinLength(1, { message: 'El campo stock debe tener como mínimo 1 caracter' })
+    @IsNumberString({},{ message: 'El campo stock debe ser un número o una cadena numérica' })
+    stock: string;
 
 
     @IsNotEmpty({ message: 'El id_categoria no debe estar vacío' })
