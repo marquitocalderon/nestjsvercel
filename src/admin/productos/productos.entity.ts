@@ -77,6 +77,8 @@ export class ProductosEntity {
     @JoinColumn({name: "id_usuario"})
     usuario: UsuariosEntity
 
+    
+
 
     
 

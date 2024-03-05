@@ -21,13 +21,13 @@ export class CrearProductoDto {
     @MaxLength(100, { message: 'El campo precio debe tener como máximo 100 caracteres' })
     @MinLength(1, { message: 'El campo precio debe tener como mínimo 1 caracter' })
     @IsNumberString({},{ message: 'El campo precio debe ser un número o una cadena numérica' })
-    precio: string;
+    precio: number;
 
     @IsNotEmpty({ message: 'El stock no debe estar vacío' })
     @MaxLength(100, { message: 'El campo stock debe tener como máximo 100 caracteres' })
     @MinLength(1, { message: 'El campo stock debe tener como mínimo 1 caracter' })
     @IsNumberString({},{ message: 'El campo stock debe ser un número o una cadena numérica' })
-    stock: string;
+    stock: number;
 
 
     @IsNotEmpty({ message: 'El id_categoria no debe estar vacío' })
