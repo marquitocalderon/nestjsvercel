@@ -35,7 +35,7 @@ export class UsuariosService {
       where: {
         usuario: usuario,
       },
-      select:["id_usuario","usuario","password","perfiles"]
+      select:["id_usuario","usuario","password","perfiles", "imagen"]
     });
   }
 
