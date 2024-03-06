@@ -32,7 +32,7 @@ export class AuthService {
             throw new UnauthorizedException('Password Incorrecto');
         }
     
-        const payload = { sub: usuario.id_usuario, username: usuario.usuario, role: usuario.perfiles.nombre_perfil };
+        const payload = { sub: usuario.id_usuario, username: usuario.usuario, role: usuario.perfiles.nombre_perfil, imagen:usuario.imagen };
     
         const accessToken = await this.jwtService.signAsync(payload, {
             secret: process.env.ACCESS_TOKEN,
