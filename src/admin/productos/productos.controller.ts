@@ -68,6 +68,8 @@ export class ProductosController {
     }
 
     @Put(':id')
+    @UseGuards(AuthGuard, RolesGuard)
+    @PermisoPara(Role.ADMIN)
     @UseInterceptors(
         FileInterceptor('imagen', {
             limits: {
