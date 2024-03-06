@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Put, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UsuariosService } from './usuarios.service';
 import { CrearUsuarioDto, UpdateUsuarioDto } from './dto/usuarios.dto';
@@ -51,12 +51,12 @@ export class UsuariosController {
         }
     }
 
-    @Patch(':id_usuario')
+    @Put(':id')
     @PermisoPara(Role.ADMIN)
     @UseInterceptors(FileInterceptor('imagen'))
     actualizarUsuario(
         @UploadedFile() imagen: Express.Multer.File,
-        @Param('id_usuario', ParseIntPipe) id_usuario: number,
+        @Param('id', ParseIntPipe) id_usuario: number,
         @Body() datosDelFronted: UpdateUsuarioDto
     ) {
         // Verificar si se proporcionó una imagen y si es del tipo esperado

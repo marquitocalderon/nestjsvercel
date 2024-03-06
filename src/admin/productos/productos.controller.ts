@@ -7,13 +7,14 @@ import {
     Param,
     ParseIntPipe,
     Post,
+    Put,
     UploadedFile,
     UseGuards,
     UseInterceptors,
 } from '@nestjs/common';
 import { ProductosService } from './productos.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CrearProductoDto } from './dto/productos.dto';
+import { CrearProductoDto, UpdateProductoDto } from './dto/productos.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AUTENTICACION_PARA_EL } from '../auth/decorators/auth.decorator';
 import { Role } from '../auth/enums/role.enum';
@@ -42,9 +43,9 @@ export class ProductosController {
         @Body() datosDelFormulario: CrearProductoDto,
     ) {
 
-         // Convertir datos a números si es necesario
-         datosDelFormulario.precio = +datosDelFormulario.precio; // Ejemplo de conversión de 'cantidad' a número
-         datosDelFormulario.stock = +datosDelFormulario.stock;
+        // Convertir datos a números si es necesario
+        datosDelFormulario.precio = +datosDelFormulario.precio; // Ejemplo de conversión de 'cantidad' a número
+        datosDelFormulario.stock = +datosDelFormulario.stock;
         if (imagen && imagen.mimetype.startsWith('image/')) {
             return this.productoService.crearProducto(datosDelFormulario, imagen)
         } else if (imagen === undefined) {
@@ -66,20 +67,62 @@ export class ProductosController {
         }
     }
 
+    @Put(':id')
+    @UseInterceptors(
+        FileInterceptor('imagen', {
+            limits: {
+                fileSize: 2 * 1024 * 1024, // 2 MB limit
+            },
+        }),
+    )
+    actualizarUsuario(
+        @UploadedFile() imagen: Express.Multer.File,
+        @Param('id', ParseIntPipe) id_producto: number,
+        @Body() datosDelFronted: UpdateProductoDto
+    ) {
 
+        if (imagen) {
+            // Verificar si la imagen excede el límite de tamaño
+            if (imagen.size > 2 * 1024 * 1024) {
+                throw new HttpException(
+                    `Por favor, envíe un archivo de imagen de 2 MB o menos.`,
+                    HttpStatus.BAD_REQUEST,
+                );
+            }
+    
+            // Verificar si la imagen es del tipo esperado
+            if (!imagen.mimetype.startsWith('image/')) {
+                throw new HttpException(
+                    `Por favor, envíe un archivo de imagen válido.`,
+                    HttpStatus.BAD_REQUEST,
+                );
+            }
+    
+            // Si se proporciona una imagen válida, llamar a la función para procesar la imagen
+            return this.productoService.actualizar(id_producto, datosDelFronted, imagen);
+        } else {
+            // Si no se proporciona una imagen, continuar con la actualización sin imagen
+            return this.productoService.actualizar(id_producto, datosDelFronted, imagen);
+        }
+    }
     
 
+
+
+
     @Get()
-    getProductos(){
+    getProductos() {
         return this.productoService.obtenertodolosdatos()
     }
 
     @Get(':id')
-    getPerfilById(@Param('id', ParseIntPipe) id:number){
+    getPerfilById(@Param('id', ParseIntPipe) id: number) {
         return this.productoService.obtenerPorID(id)
     }
 
-    
+
+
+
 
 
 
