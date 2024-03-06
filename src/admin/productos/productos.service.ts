@@ -129,6 +129,7 @@ export class ProductosService {
         });
       }
 
+      
       async obtenerPorID(id: number) {
         const datoEncontrado = await this.productoRepository.findOneBy({
           id_producto: id,

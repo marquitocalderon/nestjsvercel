@@ -40,8 +40,6 @@ export class AuthService {
       throw new UnauthorizedException('Password Incorrecto');
     }
 
-    console.log(usuario)
-
     const payload = {
       sub: usuario.id_usuario,
       username: usuario.usuario,

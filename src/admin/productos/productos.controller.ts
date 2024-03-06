@@ -8,6 +8,7 @@ import {
     ParseIntPipe,
     Post,
     UploadedFile,
+    UseGuards,
     UseInterceptors,
 } from '@nestjs/common';
 import { ProductosService } from './productos.service';
@@ -16,15 +17,19 @@ import { CrearProductoDto } from './dto/productos.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AUTENTICACION_PARA_EL } from '../auth/decorators/auth.decorator';
 import { Role } from '../auth/enums/role.enum';
+import { AuthGuard } from '../auth/guards/auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { PermisoPara } from '../auth/decorators/roles.decorator';
 
 @ApiBearerAuth()
 @ApiTags("PRODUCTOS")
 @Controller('productos')
-@AUTENTICACION_PARA_EL(Role.ADMIN)
 export class ProductosController {
     constructor(private productoService: ProductosService) { }
 
     @Post()
+    @UseGuards(AuthGuard, RolesGuard)
+    @PermisoPara(Role.ADMIN)
     @UseInterceptors(
         FileInterceptor('imagen', {
             limits: {
@@ -62,6 +67,8 @@ export class ProductosController {
     }
 
 
+    
+
     @Get()
     getProductos(){
         return this.productoService.obtenertodolosdatos()
@@ -71,4 +78,9 @@ export class ProductosController {
     getPerfilById(@Param('id', ParseIntPipe) id:number){
         return this.productoService.obtenerPorID(id)
     }
+
+    
+
+
+
 }
