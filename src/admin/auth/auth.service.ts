@@ -43,8 +43,8 @@ export class AuthService {
     const payload = {
       sub: usuario.id_usuario,
       username: usuario.usuario,
+      imagen: usuario.imagen,
       role: usuario.perfiles.nombre_perfil,
-      imagen: usuario.imagen
     };
 
     const accessToken = await this.jwtService.signAsync(payload, {
