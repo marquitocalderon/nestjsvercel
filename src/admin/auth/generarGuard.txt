@@ -1,1 +1,1 @@
-nest g guard auth --no-spec
+nest g guard auth --no-specasf

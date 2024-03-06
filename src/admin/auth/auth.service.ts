@@ -1,120 +1,149 @@
-import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 
 import { LoginDto, RefreshTokenDTO } from './dto/login.dto';
-import * as bcryptjs from 'bcryptjs'
+import * as bcryptjs from 'bcryptjs';
 import { JwtService, TokenExpiredError } from '@nestjs/jwt';
 import { UsuariosService } from '../usuarios/usuarios.service';
 import { ClientesService } from 'src/clients/clientes/clientes.service';
-
 
 // PARA USUAR JWT TOKEN SE INSTALA ESTO
 // npm install --save @nestjs/jwt
 
 @Injectable()
 export class AuthService {
+  constructor(
+    private readonly usuarioService: UsuariosService,
+    private readonly clienteService: ClientesService,
+    private readonly jwtService: JwtService,
+  ) {}
 
-    constructor(
-        private readonly usuarioService: UsuariosService,
-        private readonly clienteService : ClientesService,
-        private readonly jwtService: JwtService
-    ) { }
+  async login(datosFronted: LoginDto) {
+    const usuario = await this.usuarioService.buscarParaLogin(
+      datosFronted.usuario,
+    );
 
-    async login(datosFronted: LoginDto) {
-        const usuario = await this.usuarioService.buscarParaLogin(datosFronted.usuario);
-    
-        if (!usuario) {
-            throw new UnauthorizedException('Usuario Incorrecto');
-        }
-    
-        const passwordValidar = await bcryptjs.compare(datosFronted.password, usuario.password);
-    
-        if (!passwordValidar) {
-            throw new UnauthorizedException('Password Incorrecto');
-        }
-    
-        const payload = { sub: usuario.id_usuario, username: usuario.usuario, role: usuario.perfiles.nombre_perfil, imagen:usuario.imagen };
-    
-        const accessToken = await this.jwtService.signAsync(payload, {
-            secret: process.env.ACCESS_TOKEN,
-            expiresIn: 60 * 60,
-        });
-    
-        const refreshToken = await this.jwtService.signAsync(payload, {
-            secret: process.env.REFRESH_TOKEN,
-            expiresIn: 60 * 60 * 24 * 7,
-        });
-    
-        return {
-            token: accessToken,
-            refreshToken: refreshToken,
-        };
+    if (!usuario) {
+      throw new UnauthorizedException('Usuario Incorrecto');
     }
 
-    async loginClientes(datosFronted: LoginDto) {
-        const usuario = await this.clienteService.buscarParaLoginCLiente(datosFronted.usuario);
+    const passwordValidar = await bcryptjs.compare(
+      datosFronted.password,
+      usuario.password,
+    );
 
-    
-        if (!usuario) {
-            throw new UnauthorizedException('Usuario Incorrecto');
-        }
-    
-        const passwordValidar = await bcryptjs.compare(datosFronted.password, usuario.password);
-    
-        if (!passwordValidar) {
-            throw new UnauthorizedException('Password Incorrecto');
-        }
-    
-        const payload = { sub: usuario.id_cliente, username: usuario.usuario, role: "CLIENTE", email: usuario.email, departamento: usuario.departamento, provincia: usuario.provincia, distrio:usuario.distrito , dni: usuario.dni};
-    
-        const accessToken = await this.jwtService.signAsync(payload, {
-            secret: process.env.ACCESS_TOKEN,
-            expiresIn: 60 * 60,
-        });
-    
-        const refreshToken = await this.jwtService.signAsync(payload, {
-            secret: process.env.REFRESH_TOKEN,
-            expiresIn: 60 * 60 * 24 * 7,
-        });
-    
-        return {
-            token: accessToken,
-            refreshToken: refreshToken,
-        };
+    if (!passwordValidar) {
+      throw new UnauthorizedException('Password Incorrecto');
     }
 
-    async generarToken_Con_REFRESH_TOKEN(datoRecibido: RefreshTokenDTO): Promise<string> {
-        try {
-            // Verificar si el refresh token es válido
-            const payload = await this.jwtService.verifyAsync(datoRecibido.refresh_token, {
-                secret: process.env.REFRESH_TOKEN,
-            });
-    
-            // Obtener el usuario asociado al refresh token (si es necesario)
-            const usuario = await this.usuarioService.obtenerPorID(payload.sub);
-    
-            // Crear un nuevo token de acceso con los mismos datos del usuario
-            const nuevoAccessToken = await this.jwtService.signAsync({
-                sub: usuario.id_usuario,
-                username: usuario.usuario,
-                role: usuario.perfiles.nombre_perfil
-            }, {
-                secret: process.env.ACCESS_TOKEN,
-                expiresIn: 60 * 60, // Otra duración según tus necesidades
-            });
-    
-            return nuevoAccessToken;
-        } catch (error) {
-            if (error instanceof TokenExpiredError) {
-                // Manejar el error específico de token expirado
-                throw new UnauthorizedException('Refresh token vencido');
-            }
-            // Manejar el error de verificación del refresh token
-            throw new UnauthorizedException('Refresh token no válido');
-        }
+    const payload = {
+      sub: usuario.id_usuario,
+      username: usuario.usuario,
+      role: usuario.perfiles.nombre_perfil,
+      imagen: usuario.imagen
+    };
+
+    const accessToken = await this.jwtService.signAsync(payload, {
+      secret: process.env.ACCESS_TOKEN,
+      expiresIn: 60 * 60,
+    });
+
+    const refreshToken = await this.jwtService.signAsync(payload, {
+      secret: process.env.REFRESH_TOKEN,
+      expiresIn: 60 * 60 * 24 * 7,
+    });
+
+    return {
+      token: accessToken,
+      refreshToken: refreshToken,
+    };
+  }
+
+  async loginClientes(datosFronted: LoginDto) {
+    const usuario = await this.clienteService.buscarParaLoginCLiente(
+      datosFronted.usuario,
+    );
+
+    if (!usuario) {
+      throw new UnauthorizedException('Usuario Incorrecto');
     }
-    
-    
 
+    const passwordValidar = await bcryptjs.compare(
+      datosFronted.password,
+      usuario.password,
+    );
 
+    if (!passwordValidar) {
+      throw new UnauthorizedException('Password Incorrecto');
+    }
 
+    const payload = {
+      sub: usuario.id_cliente,
+      username: usuario.usuario,
+      role: 'CLIENTE',
+      email: usuario.email,
+      departamento: usuario.departamento,
+      provincia: usuario.provincia,
+      distrio: usuario.distrito,
+      dni: usuario.dni,
+    };
+
+    const accessToken = await this.jwtService.signAsync(payload, {
+      secret: process.env.ACCESS_TOKEN,
+      expiresIn: 60 * 60,
+    });
+
+    const refreshToken = await this.jwtService.signAsync(payload, {
+      secret: process.env.REFRESH_TOKEN,
+      expiresIn: 60 * 60 * 24 * 7,
+    });
+
+    return {
+      token: accessToken,
+      refreshToken: refreshToken,
+    };
+  }
+
+  async generarToken_Con_REFRESH_TOKEN(
+    datoRecibido: RefreshTokenDTO,
+  ): Promise<string> {
+    try {
+      // Verificar si el refresh token es válido
+      const payload = await this.jwtService.verifyAsync(
+        datoRecibido.refresh_token,
+        {
+          secret: process.env.REFRESH_TOKEN,
+        },
+      );
+
+      // Obtener el usuario asociado al refresh token (si es necesario)
+      const usuario = await this.usuarioService.obtenerPorID(payload.sub);
+
+      // Crear un nuevo token de acceso con los mismos datos del usuario
+      const nuevoAccessToken = await this.jwtService.signAsync(
+        {
+          sub: usuario.id_usuario,
+          username: usuario.usuario,
+          role: usuario.perfiles.nombre_perfil,
+        },
+        {
+          secret: process.env.ACCESS_TOKEN,
+          expiresIn: 60 * 60, // Otra duración según tus necesidades
+        },
+      );
+
+      return nuevoAccessToken;
+    } catch (error) {
+      if (error instanceof TokenExpiredError) {
+        // Manejar el error específico de token expirado
+        throw new UnauthorizedException('Refresh token vencido');
+      }
+      // Manejar el error de verificación del refresh token
+      throw new UnauthorizedException('Refresh token no válido');
+    }
+  }
 }
