@@ -13,6 +13,7 @@ import { MarcasModule } from './admin/marcas/marcas.module';
 import { TallasModule } from './admin/tallas/tallas.module';
 import { GenerosModule } from './admin/generos/generos.module';
 import { ProductosModule } from './admin/productos/productos.module';
+import { StripeModule } from './admin/stripe/stripe.module';
 
 
 
@@ -50,6 +51,7 @@ import { ProductosModule } from './admin/productos/productos.module';
     TallasModule,
     GenerosModule,
     ProductosModule,
+    StripeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
