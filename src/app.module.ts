@@ -14,6 +14,9 @@ import { TallasModule } from './admin/tallas/tallas.module';
 import { GenerosModule } from './admin/generos/generos.module';
 import { ProductosModule } from './admin/productos/productos.module';
 import { StripeModule } from './admin/stripe/stripe.module';
+import { ModulosModule } from './admin/modulos/modulos.module';
+import { AccesosController } from './admin/accesos/accesos.controller';
+import { AccesosModule } from "./admin/accesos/accesos.module";
 
 
 
@@ -52,6 +55,8 @@ import { StripeModule } from './admin/stripe/stripe.module';
     GenerosModule,
     ProductosModule,
     StripeModule,
+    ModulosModule,
+    AccesosModule,
   ],
   controllers: [AppController],
   providers: [AppService],
