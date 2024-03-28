@@ -7,13 +7,14 @@ import { Role } from '../auth/enums/role.enum';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 
+
 @ApiBearerAuth()
 @Controller('accesos')
 export class AccesosController {
 
     constructor(private accesoServicio: AccesosService){}
 
-
+    @UseGuards(AuthGuard, RolesGuard)
     @Get()
     obtenerAccesos(){
         return this.accesoServicio.obtenerDatos();
