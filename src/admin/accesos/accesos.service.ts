@@ -17,17 +17,41 @@ export class AccesosService {
     private ModuloEntity: Repository<ModuloEntity>,
   ) {}
 
-  obtenerDatos() {
-    return this.accesoRepository.find({
-      order: {
-        id_acceso: 'DESC',
-      },
+  async obtenerDatos() {
+    // Obtener todos los accesos activos
+    const accesos = await this.accesoRepository.find({
       where: {
         activo: true,
       },
+      relations: ['perfiles', 'modulos'],
     });
-  }
 
+    // Objeto para almacenar los datos agrupados por perfil
+    const datosAgrupados = {};
+
+    // Iterar sobre los accesos para agruparlos por perfil
+    accesos.forEach(acceso => {
+      const perfil = acceso.perfiles.nombre_perfil;
+      const modulo = {
+        id_modulo: acceso.modulos.id_modulo,
+        modulo: acceso.modulos.modulo,
+      };
+
+      if (!datosAgrupados[perfil]) {
+        datosAgrupados[perfil] = [];
+      }
+
+      datosAgrupados[perfil].push(modulo);
+    });
+
+    // Crear el resultado en el formato deseado
+    const resultado = Object.keys(datosAgrupados).map(perfil => ({
+      nombre_perfil: perfil,
+      permisosmodulos: datosAgrupados[perfil],
+    }));
+
+    return resultado;
+  }
 async postPermisoDatos(permisosModulo: CrearPermisosDTO) {
     let errores: string[] = [];
 
