@@ -18,11 +18,8 @@ export class AccesosService {
   ) {}
 
   async obtenerDatos() {
-    // Obtener todos los accesos activos
+    // Obtener todos los accesos
     const accesos = await this.accesoRepository.find({
-      where: {
-        activo: true,
-      },
       relations: ['perfiles', 'modulos'],
     });
 
@@ -35,6 +32,7 @@ export class AccesosService {
       const modulo = {
         id_modulo: acceso.modulos.id_modulo,
         modulo: acceso.modulos.modulo,
+        activo: acceso.activo // Usar el estado activo del acceso
       };
 
       if (!datosAgrupados[perfil]) {
@@ -47,11 +45,17 @@ export class AccesosService {
     // Crear el resultado en el formato deseado
     const resultado = Object.keys(datosAgrupados).map(perfil => ({
       nombre_perfil: perfil,
-      permisosmodulos: datosAgrupados[perfil],
+      permisosmodulos: datosAgrupados[perfil].map(modulo => ({
+        id_modulo: modulo.id_modulo,
+        modulo: modulo.modulo,
+        activo: modulo.activo
+      })),
     }));
 
     return resultado;
   }
+
+
 async postPermisoDatos(permisosModulo: CrearPermisosDTO) {
     let errores: string[] = [];
 
