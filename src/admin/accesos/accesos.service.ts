@@ -28,64 +28,68 @@ export class AccesosService {
     });
   }
 
-  async postPermisoDatos(permisosModulo: CrearPermisosDTO) {
+async postPermisoDatos(permisosModulo: CrearPermisosDTO) {
     let errores: string[] = [];
   
     // Validar si existen permisos existentes para los perfiles y módulos proporcionados
     for (const permiso of permisosModulo.permisosmodulos) {
-      const { id_perfil, id_modulo } = permiso;
+        const { id_perfil, id_modulo } = permiso;
 
-     
-  
-      // Verificar si el perfil y el módulo existen en la base de datos
-      const perfilExistente = await this.PerfilEntity.findOne({
-        where: {
-          id_perfil: id_perfil
+        // Verificar si el perfil y el módulo existen en la base de datos
+        const perfilExistente = await this.PerfilEntity.findOne({
+            where: {
+                id_perfil: id_perfil
+            }
+        })
+        const moduloExistente = await this.ModuloEntity.findOne({
+            where: {
+                id_modulo: id_modulo
+            }
+        })
+
+        if (!perfilExistente) {
+            errores.push(`El perfil con ID ${id_perfil} no existe.`);
         }
-      })
-      const moduloExistente =await this.ModuloEntity.findOne({
-        where: {
-          id_modulo: id_modulo
+
+        if (!moduloExistente) {
+            errores.push(`El módulo con ID ${id_modulo} no existe.`);
         }
-      })
-  
-      if (!perfilExistente) {
-        errores.push(`El perfil con ID ${id_perfil} no existe.`);
-      }
-  
-      if (!moduloExistente) {
-        errores.push(`El módulo con ID ${id_modulo} no existe.`);
-      }
     }
-  
-    // Si se encontraron errores, lanzar una excepción
+
+    // Si se encontraron errores, devolver un estado de conflicto
     if (errores.length > 0) {
-      throw new HttpException(
-        `Hubo errores al crear algunos permisos: ${errores.join(', ')}`,
-        HttpStatus.CONFLICT,
-      );
+        return {
+            status: HttpStatus.OK,
+            message: 'Hubo errores al crear algunos permisos',
+            errors: errores
+        };
     }
-  
+
     // Crear los nuevos permisos
     for (const permiso of permisosModulo.permisosmodulos) {
-      const { id_perfil, id_modulo, activo } = permiso;
-      const nuevoPermiso = this.accesoRepository.create({
-        perfiles: await this.PerfilEntity.findOne({
-            where: {
-              id_perfil: id_perfil
-            }
-          }),
-          modulos: await this.ModuloEntity.findOne({
-            where: {
-              id_modulo: id_modulo
-            }
-          }),
-        activo: activo,
-      });
-      await this.accesoRepository.save(nuevoPermiso);
-      return 'Permisos creados correctamente';
+        const { id_perfil, id_modulo, activo } = permiso;
+        const nuevoPermiso = this.accesoRepository.create({
+            perfiles: await this.PerfilEntity.findOne({
+                where: {
+                    id_perfil: id_perfil
+                }
+            }),
+            modulos: await this.ModuloEntity.findOne({
+                where: {
+                    id_modulo: id_modulo
+                }
+            }),
+            activo: activo,
+        });
+        await this.accesoRepository.save(nuevoPermiso);
     }
-  }
+    
+    // Si no hubo errores, devolver un estado 200 OK con un mensaje de éxito
+    return {
+        status: HttpStatus.OK,
+        message: 'Permisos creados correctamente'
+    };
+}
   
   
 
@@ -123,7 +127,10 @@ export class AccesosService {
         { activo },
       );
     }
-
-    return 'Permisos actualizados correctamente';
+   // Si no hubo errores, devolver un estado 200 OK con un mensaje de éxito
+   return {
+    status: HttpStatus.OK,
+    message: 'Permisos creados correctamente'
+};
   }
 }
