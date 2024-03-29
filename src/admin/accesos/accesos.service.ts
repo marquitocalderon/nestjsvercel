@@ -30,6 +30,8 @@ export class AccesosService {
 
 async postPermisoDatos(permisosModulo: CrearPermisosDTO) {
     let errores: string[] = [];
+
+  
   
     // Validar si existen permisos existentes para los perfiles y módulos proporcionados
     for (const permiso of permisosModulo.permisosmodulos) {
@@ -48,18 +50,39 @@ async postPermisoDatos(permisosModulo: CrearPermisosDTO) {
         })
 
         if (!perfilExistente) {
-            errores.push(`El perfil con ID ${id_perfil} no existe.`);
+          throw new HttpException(
+            `Error not founD EL ID PERFIL`,
+            HttpStatus.NOT_FOUND,
+          );
         }
 
         if (!moduloExistente) {
-            errores.push(`El módulo con ID ${id_modulo} no existe.`);
+          throw new HttpException(
+            `Error not fount ID MODULO`,
+            HttpStatus.NOT_FOUND,
+          );
+        }
+
+          // Verificar si ya existe el permiso de datos para este perfil y módulo
+          const permisoExistente = await this.accesoRepository.findOne({
+            where: {
+                perfiles: perfilExistente,
+                modulos: moduloExistente
+            }
+        });
+
+        if (permisoExistente) {
+          throw new HttpException(
+            `Error PERMISOS YA CREADOS`,
+            HttpStatus.CONFLICT,
+          );
         }
     }
 
     // Si se encontraron errores, devolver un estado de conflicto
     if (errores.length > 0) {
         return {
-            status: HttpStatus.OK,
+            status: HttpStatus.CONFLICT,
             message: 'Hubo errores al crear algunos permisos',
             errors: errores
         };
