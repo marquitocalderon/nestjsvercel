@@ -83,9 +83,8 @@ export class AccesosService {
         activo: activo,
       });
       await this.accesoRepository.save(nuevoPermiso);
+      return 'Permisos creados correctamente';
     }
-  
-    return 'Permisos creados correctamente';
   }
   
   
