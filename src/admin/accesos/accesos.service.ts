@@ -28,6 +28,7 @@ export class AccesosService {
 
     // Iterar sobre los accesos para agruparlos por perfil
     accesos.forEach(acceso => {
+      const id_perfil = acceso.perfiles.id_perfil;
       const perfil = acceso.perfiles.nombre_perfil;
       const modulo = {
         id_modulo: acceso.modulos.id_modulo,
@@ -36,16 +37,20 @@ export class AccesosService {
       };
 
       if (!datosAgrupados[perfil]) {
-        datosAgrupados[perfil] = [];
+        datosAgrupados[perfil] = {
+          id_perfil: id_perfil, // Agregar id_perfil
+          modulos: [] // Crear un arreglo para los módulos
+        };
       }
 
-      datosAgrupados[perfil].push(modulo);
+      datosAgrupados[perfil].modulos.push(modulo); // Agregar el módulo al arreglo correspondiente
     });
 
     // Crear el resultado en el formato deseado
     const resultado = Object.keys(datosAgrupados).map(perfil => ({
+      id_perfil: datosAgrupados[perfil].id_perfil, // Incluir id_perfil
       nombre_perfil: perfil,
-      modulosasignados: datosAgrupados[perfil].map(modulo => ({
+      modulosasignados: datosAgrupados[perfil].modulos.map(modulo => ({
         id_modulo: modulo.id_modulo,
         modulo: modulo.modulo,
         activo: modulo.activo
@@ -53,7 +58,8 @@ export class AccesosService {
     }));
 
     return resultado;
-  }
+}
+
 
 
 async postPermisoDatos(permisosModulo: CrearPermisosDTO) {
