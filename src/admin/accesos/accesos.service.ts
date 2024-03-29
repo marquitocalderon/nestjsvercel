@@ -45,7 +45,7 @@ export class AccesosService {
     // Crear el resultado en el formato deseado
     const resultado = Object.keys(datosAgrupados).map(perfil => ({
       nombre_perfil: perfil,
-      permisosmodulos: datosAgrupados[perfil].map(modulo => ({
+      modulosasignados: datosAgrupados[perfil].map(modulo => ({
         id_modulo: modulo.id_modulo,
         modulo: modulo.modulo,
         activo: modulo.activo
