@@ -187,7 +187,7 @@ async postPermisoDatos(permisosModulo: CrearPermisosDTO) {
    // Si no hubo errores, devolver un estado 200 OK con un mensaje de éxito
    return {
     status: HttpStatus.OK,
-    message: 'Permisos creados correctamente'
+    message: 'Permisos actualizados correctamente'
 };
   }
 }
