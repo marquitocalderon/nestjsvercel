@@ -10,6 +10,7 @@ import * as bcryptjs from 'bcryptjs';
 import { JwtService, TokenExpiredError } from '@nestjs/jwt';
 import { UsuariosService } from '../usuarios/usuarios.service';
 import { ClientesService } from 'src/clients/clientes/clientes.service';
+import { AccesosService } from '../accesos/accesos.service';
 
 // PARA USUAR JWT TOKEN SE INSTALA ESTO
 // npm install --save @nestjs/jwt
@@ -20,6 +21,7 @@ export class AuthService {
     private readonly usuarioService: UsuariosService,
     private readonly clienteService: ClientesService,
     private readonly jwtService: JwtService,
+    private readonly accesosService: AccesosService,
   ) {}
 
   async login(datosFronted: LoginDto) {
@@ -40,11 +42,18 @@ export class AuthService {
       throw new UnauthorizedException('Password Incorrecto');
     }
 
+    const accesosDeModulos = await this.accesosService.obtenerDatos();
+
+    const accesoPerfilUsuario = accesosDeModulos.find(acceso => acceso.nombre_perfil === usuario.perfiles.nombre_perfil);
+
+    const modulosInactivos = accesoPerfilUsuario.modulosasignados.filter(modulo => modulo.activo === true);
+
     const payload = {
       sub: usuario.id_usuario,
       username: usuario.usuario,
       imagen: usuario.imagen,
       role: usuario.perfiles.nombre_perfil,
+      modulosasignados :modulosInactivos
     };
 
     const accessToken = await this.jwtService.signAsync(payload, {
@@ -62,6 +71,15 @@ export class AuthService {
       refreshToken: refreshToken,
     };
   }
+
+
+
+
+
+
+
+
+
 
   async loginClientes(datosFronted: LoginDto) {
     const usuario = await this.clienteService.buscarParaLoginCLiente(

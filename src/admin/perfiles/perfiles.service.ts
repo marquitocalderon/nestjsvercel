@@ -11,12 +11,7 @@ export class PerfilesService {
 
    obtenerTodoslosPerfiles(){
       return this.perfilRepository.find({
-        order:{
-          id_perfil: 'DESC',
-        },
-        where:{
-          estado_perfil: true
-        }
+        relations: ['modulos']
       })
    } 
 

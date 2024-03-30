@@ -9,6 +9,7 @@ import { PerfilesEntity } from '../perfiles/perfiles.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([AccesoEntity, PerfilesEntity, ModuloEntity])],
   controllers: [AccesosController],
-  providers: [AccesosService]
+  providers: [AccesosService],
+  exports:[AccesosService]
 })
 export class AccesosModule {}
