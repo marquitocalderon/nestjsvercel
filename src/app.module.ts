@@ -17,6 +17,7 @@ import { StripeModule } from './admin/stripe/stripe.module';
 import { ModulosModule } from './admin/modulos/modulos.module';
 import { AccesosController } from './admin/accesos/accesos.controller';
 import { AccesosModule } from "./admin/accesos/accesos.module";
+import { InternetModule } from './internet/internet.module';
 
 
 
@@ -57,6 +58,7 @@ import { AccesosModule } from "./admin/accesos/accesos.module";
     StripeModule,
     ModulosModule,
     AccesosModule,
+    InternetModule,
   ],
   controllers: [AppController],
   providers: [AppService],
