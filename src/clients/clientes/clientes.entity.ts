@@ -22,6 +22,10 @@ export class ClientesEntity {
     @Column({select: false}) 
     password: string;
 
+    
+    @Column({ length: 50}) 
+    direccion: string;
+
 
     @Column({ length: 26}) 
     departamento: string;

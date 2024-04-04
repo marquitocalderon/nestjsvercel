@@ -34,21 +34,22 @@ export class UsuariosController {
     @PermisoPara(Role.ADMIN)
     @UseInterceptors(FileInterceptor('imagen'))
     postUsuarios(@UploadedFile() imagen: Express.Multer.File, @Body() datosDelFormulario: CrearUsuarioDto,) {
-        // Verificar si el mimetype es de una imagen
-        // Verificar si se proporcionó una imagen y si es del tipo esperado
-        if (imagen && imagen.mimetype.startsWith('image/')) {
-            // Si se proporciona una imagen válida, llamar a lid_usuarioa función para procesar la imagen
-            return this.usuarioService.crearUsuario(datosDelFormulario, imagen);
-        }
+  
+        // // Verificar si el mimetype es de una imagen
+        // // Verificar si se proporcionó una imagen y si es del tipo esperado
+        // if (imagen && imagen.mimetype.startsWith('image/')) {
+        //     // Si se proporciona una imagen válida, llamar a lid_usuarioa función para procesar la imagen
+        //     return this.usuarioService.crearUsuario(datosDelFormulario, imagen);
+        // }
 
-        else if (imagen === undefined) {
-            return this.usuarioService.crearUsuario(datosDelFormulario, imagen);
-        }
+        // else if (imagen === undefined) {
+        //     return this.usuarioService.crearUsuario(datosDelFormulario, imagen);
+        // }
 
-        else {
-            // Si no se proporciona una imagen o es de un tipo no válido, continuar con la actualización sin imagen
-            return { message: "POR FAVOR ENVIAR UNA IMAGEN QUE SOLO SEA IMAGEN OK" }
-        }
+        // else {
+        //     // Si no se proporciona una imagen o es de un tipo no válido, continuar con la actualización sin imagen
+        //     return { message: "POR FAVOR ENVIAR UNA IMAGEN QUE SOLO SEA IMAGEN OK" }
+        // }
     }
 
     @Put(':id')
@@ -74,5 +75,8 @@ export class UsuariosController {
             return { message: "POR FAVOR ENVIAR UNA IMAGEN QUE SOLO SEA IMAGEN OK" }
         }
     }
+
+
+  
 
 }

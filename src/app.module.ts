@@ -8,16 +8,12 @@ import { AuthModule } from "./admin/auth/auth.module";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { ClientesModule } from './clients/clientes/clientes.module';
-import { CategoriasModule } from './admin/categorias/categorias.module';
-import { MarcasModule } from './admin/marcas/marcas.module';
-import { TallasModule } from './admin/tallas/tallas.module';
-import { GenerosModule } from './admin/generos/generos.module';
-import { ProductosModule } from './admin/productos/productos.module';
 import { StripeModule } from './admin/stripe/stripe.module';
 import { ModulosModule } from './admin/modulos/modulos.module';
 import { AccesosController } from './admin/accesos/accesos.controller';
 import { AccesosModule } from "./admin/accesos/accesos.module";
 import { InternetModule } from './internet/internet.module';
+import { CasosModule } from './admin/casos/casos.module';
 
 
 
@@ -50,15 +46,11 @@ import { InternetModule } from './internet/internet.module';
     CloudinaryModule,
     AuthModule,
     ClientesModule,
-    CategoriasModule,
-    MarcasModule,
-    TallasModule,
-    GenerosModule,
-    ProductosModule,
     StripeModule,
     ModulosModule,
     AccesosModule,
     InternetModule,
+    CasosModule,
   ],
   controllers: [AppController],
   providers: [AppService],
