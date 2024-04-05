@@ -17,10 +17,7 @@ export class ClientesService {
 
   buscarParaLoginCLiente(usuario: string) {
     return this.clientesRepository.findOne({
-      where: {
-        usuario: usuario,
-      },
-      select: ["id_cliente", "usuario", "password", "email", "departamento", "provincia", "distrito", "nombre_completo", "dni"]
+      select: ["id_cliente","email", "departamento", "provincia", "distrito", "nombre_completo", "dni"]
     });
   }
 
@@ -28,13 +25,7 @@ export class ClientesService {
 
   async insertarClientes(datosDelFrontendCliente: CrearClienteDto) {
 
-    const usuarioEncontrado = await this.clientesRepository.findOneBy({
-      usuario: datosDelFrontendCliente.usuario,
-    });
 
-    if (usuarioEncontrado) {
-      throw new ConflictException("Este usuario ya existe, Elija otro")
-    }
 
     const emailEncontrado = await this.clientesRepository.findOneBy({
       email: datosDelFrontendCliente.email,
@@ -56,8 +47,6 @@ export class ClientesService {
       nombre_completo: datosDelFrontendCliente.nombre_completo,
       email: datosDelFrontendCliente.email,
       dni: datosDelFrontendCliente.dni,
-      usuario: datosDelFrontendCliente.usuario,
-      password: await bcryptjs.hash(datosDelFrontendCliente.password, 10),
       departamento: datosDelFrontendCliente.departamento,
       provincia: datosDelFrontendCliente.provincia,
       distrito: datosDelFrontendCliente.distrito

@@ -15,13 +15,6 @@ export class ClientesEntity {
 
     @Column({ length: 50 , unique: true}) 
     email: string;
-
-    @Column({ length: 16 , unique: true}) 
-    usuario: string;
-
-    @Column({select: false}) 
-    password: string;
-
     
     @Column({ length: 50}) 
     direccion: string;

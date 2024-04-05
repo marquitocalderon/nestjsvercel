@@ -73,59 +73,6 @@ export class AuthService {
   }
 
 
-
-
-
-
-
-
-
-
-  async loginClientes(datosFronted: LoginDto) {
-    const usuario = await this.clienteService.buscarParaLoginCLiente(
-      datosFronted.usuario,
-    );
-
-    if (!usuario) {
-      throw new UnauthorizedException('Usuario Incorrecto');
-    }
-
-    const passwordValidar = await bcryptjs.compare(
-      datosFronted.password,
-      usuario.password,
-    );
-
-    if (!passwordValidar) {
-      throw new UnauthorizedException('Password Incorrecto');
-    }
-
-    const payload = {
-      sub: usuario.id_cliente,
-      username: usuario.usuario,
-      role: 'CLIENTE',
-      email: usuario.email,
-      departamento: usuario.departamento,
-      provincia: usuario.provincia,
-      distrio: usuario.distrito,
-      dni: usuario.dni,
-    };
-
-    const accessToken = await this.jwtService.signAsync(payload, {
-      secret: process.env.ACCESS_TOKEN,
-      expiresIn: 60 * 60,
-    });
-
-    const refreshToken = await this.jwtService.signAsync(payload, {
-      secret: process.env.REFRESH_TOKEN,
-      expiresIn: 60 * 60 * 24 * 7,
-    });
-
-    return {
-      token: accessToken,
-      refreshToken: refreshToken,
-    };
-  }
-
   async generarToken_Con_REFRESH_TOKEN(
     datoRecibido: RefreshTokenDTO,
   ): Promise<string> {
