@@ -47,6 +47,7 @@ export class ClientesService {
       nombre_completo: datosDelFrontendCliente.nombre_completo,
       email: datosDelFrontendCliente.email,
       dni: datosDelFrontendCliente.dni,
+      celular: datosDelFrontendCliente.celular,
       departamento: datosDelFrontendCliente.departamento,
       provincia: datosDelFrontendCliente.provincia,
       distrito: datosDelFrontendCliente.distrito

@@ -21,19 +21,9 @@ export class CrearClienteDto {
     @MinLength(4, { message: 'El campo email debe 4 caracteres como minimo' })
     email: string;
 
-    @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value)) // Trim whitespaces at the beginning and end
-    @IsNotEmpty({ message: 'El campo usuario no debe estar vacío' })
-    @IsString({ message: 'El campo usuario tiene que ser una cadena de caracteres' })
-    @MaxLength(16, { message: 'El campo usuario debe 16 caracteres como maximo' })
-    @MinLength(4, { message: 'El campo usuario debe 4 caracteres como minimo' })
-    usuario: string;
-
-    @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value)) // Trim whitespaces at the beginning and end
-    @IsNotEmpty({ message: 'El campo password no debe estar vacío' })
-    @IsString({ message: 'El campo password tiene que ser una cadena de caracteres' })
-    @MaxLength(16, { message: 'El campo password debe 16 caracteres como maximo' })
-    @MinLength(4, { message: 'El campo password debe 4 caracteres como minimo' })
-    password: string;
+    @IsNumberString()
+    @Length(9, 9, { message: 'El celular debe tener exactamente 9 dígitos' })
+    celular: string;
 
     @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value)) // Trim whitespaces at the beginning and end
     @IsNotEmpty({ message: 'El campo departamento no debe estar vacío' })

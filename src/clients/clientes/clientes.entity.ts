@@ -15,6 +15,9 @@ export class ClientesEntity {
 
     @Column({ length: 50 , unique: true}) 
     email: string;
+
+    @Column({ length: 9 }) // Especifica la longitud máxima de la columna usuario
+    celular: string;
     
     @Column({ length: 50}) 
     direccion: string;
